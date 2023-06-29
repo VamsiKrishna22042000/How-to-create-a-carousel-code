@@ -1,0 +1,124 @@
+
+index.js
+
+
+import { useState, useEffect } from "react"
+
+import './index.css'
+
+const carouselImg = [
+    {id:0,imgUrl:"beautyzone1"},
+    {id:1,imgUrl:"beautyzone2"},
+    {id:2,imgUrl:"beautyzone3"},
+]
+
+const Carousel = () =>{
+    
+    const [activeIndex, setActiveIndex] = useState(0)
+    
+    useEffect(()=>{
+      const id =  setTimeout(()=>{
+            if(activeIndex === carouselImg.length - 1){
+                setActiveIndex(0)
+            }else{
+                setActiveIndex(activeIndex+1)
+            }
+        },3000)
+
+        return(
+            ()=>{
+                clearTimeout(id)
+            }
+        )
+    },[activeIndex])
+
+
+    return(
+        <>   
+            <div className="carouselImg-con">
+                {carouselImg.map(each=>(
+                    <img src={`./${each.imgUrl}.png`} style={{transform:`translate(-${activeIndex * 100}%)`}} className="carouselImg" alt="carouselImg"/>  
+                ))}
+            </div>
+            <div className="dots-con">
+                 {carouselImg.map(each=>(<div id={each.id} className={activeIndex === each.id ? "dots" :"dots2"}></div>))}
+            </div>
+        </>
+      
+    )
+}
+
+export default Carousel
+
+
+
+
+
+index.css
+
+
+
+
+
+
+
+@media screen and (min-width:992px){
+    .carouselImg{
+
+      transition: transform 0.5s ease-in-out;
+      height:120vh;
+      width:100%;
+      
+    }
+    .carouselImg-con{
+      height:auto;
+      width:100vw;
+      display:flex;
+      flex-direction:row;
+      overflow:hidden;
+    }
+    .dots-con{
+      padding:1.5%;
+      width:100%;
+      display:flex;
+      flex-direction:row;
+      justify-content:center;
+      align-items:center;
+    }
+    .dots{
+      padding:0.3%;
+      width:1%;
+      background:#F4BD18;
+      background-position:center;
+      background-size:color;
+      margin-left:0.5%;
+      margin-right:0.5%;
+      border-radius:5px;
+      transition: all 0.5s ease-in-out;
+    }
+    .dots2{
+      padding:0.3%;
+      width:0.1%;
+      background:#BFBBC3;
+      background-position:center;
+      background-size:color;
+      margin-left:0.5%;
+      margin-right:0.5%;
+      border-radius:5px;
+      transition: all 0.5s ease-in-out;
+    }
+}
+
+
+@media screen and (max-width:600px){
+  .carouselImg{
+    transition: transform 0.5s ease-in-out;
+  }
+  .carouselImg-con{
+    height:auto;
+    width:100vw;
+    display:flex;
+    flex-direction:row;
+    overflow:hidden;
+  }
+}
